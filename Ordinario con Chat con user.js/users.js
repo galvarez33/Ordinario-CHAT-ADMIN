@@ -13,6 +13,7 @@ users.generateHash = function(pass, callback){
 users.register = function(username, pass, role, callback){
     users.generateHash(pass, function(err, hash){
         users[username] = {username, hash, role, last_login: new Date().toISOString()};
+       
         if (callback) {
             callback();
         };

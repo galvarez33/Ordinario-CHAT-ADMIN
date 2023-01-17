@@ -1,9 +1,11 @@
 let express = require('express');
 let router = express.Router();
-const users = require('../users');
+const users = require('../users').users; //importamos mçobjeto, NO MODULO
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log(users);
   res.render('admin', { title: 'Admin',usuarios:users ,logged_user: req.session.user});
 });
 

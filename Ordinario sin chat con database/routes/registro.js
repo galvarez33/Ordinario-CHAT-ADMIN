@@ -10,13 +10,13 @@ router.get('/', function (req, res, next) {
 
 router.post("/", function (req, res, next) {
 
-  console.log(req.session.user);
+ 
   const user = req.body.user;
   const pass = req.body.pass; //agarrar name de input
   const pass1 = req.body.pass1;
   const roles = req.body.roles;
- 
-  
+
+
 
 
 
@@ -29,30 +29,24 @@ router.post("/", function (req, res, next) {
       req.session.error = "Passwords need to be 8 characters long";
       res.redirect("/registro");
     } else if (pass === pass1) {
+     
+      if (roles == "usuario") {
+        database.users.register(user, pass, "user", function () {
+          console.log("rol:"+roles);
+          console.log("Se ha registrado con exito");
+          req.session.message = "You have just registered please enter new account to log in!";
+           
+          res.redirect("/login");
+        });
+      } else {
         
-        if(roles== "usuario"){
-      database.users.register(user, pass,"user", function () {
-        console.log("Se ha registrado con exito");
-        req.session.message = "You have just registered please enter new account to log in!";
-        res.redirect("/login");
-      });
-    }else{
-        database.users.register(user, pass,"admin", function () {
-            console.log("Se ha registrado con exito");
-            req.session.message = "You have just registered please enter new account to log in!";
-            res.redirect("/login");
-          });
+        database.users.register(user, pass, "admin", function () {
+          console.log("Se ha registrado con exito");
+          req.session.message = "You have just registered please enter new account to log in!";
+          res.redirect("/login");
+        });
 
-    }
-
-
-
-
-
-
-
-
-
+      }
 
     }
   } else {

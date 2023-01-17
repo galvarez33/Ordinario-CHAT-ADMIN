@@ -38,12 +38,15 @@
         const form = document.getElementById("form");
         const input = document.getElementById("input");
         const messages = document.getElementById("messages");
+        
+        
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value) {
-
-                socket.emit("chat",  input.value);
+                
+                
+                socket.emit("chat", "<%= logged_user.username %>: "+input.value);
                 input.value = "";
 
             }
