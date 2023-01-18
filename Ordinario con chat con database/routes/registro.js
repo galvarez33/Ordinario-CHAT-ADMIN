@@ -25,10 +25,17 @@ router.post("/", function (req, res, next) {
     if (pass != pass1) {
       req.session.error = "Passwords don't match";
       res.redirect("/registro");
-    } else if (pass.length < 4 && pass1.length < 4) {
-      req.session.error = "Passwords need to be 8 characters long";
+    } else if (pass.length <5 && pass1.length < 5) {
+      req.session.error = "Passwords need to be 5 characters long";
       res.redirect("/registro");
-    } else if (pass === pass1) {
+
+    }else if (!/^[A-Z]{1}[a-z0-9A-Z\._-]+$/.test(pass)){  //EXPRESION REGULAR
+      req.session.error = "formato incorrecto de contraseña: Primera letra Mayuscula, + 4 caracteres";
+      res.redirect("/registro");
+     
+    } 
+    
+    else if (pass === pass1) {
      
       if (roles == "usuario") {
         database.users.register(user, pass, "user", function () {

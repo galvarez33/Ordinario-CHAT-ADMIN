@@ -16,13 +16,20 @@ router.post("/", function (req, res, next) {
   const roles = req.body.roles;
 
   if (!users[user]) {
-    req.session.user = users[user];
+    req.session.user = users[user]; //accedemos a la informacion del usuario si no existe
     if (pass != pass1) {
       req.session.error = "Passwords don't match";
       res.redirect("/registro");
-    } else if (pass.length  > 4 && pass1.length > 4) {
-      req.session.error = "4 carcateres como mucho xd";
+    } else if (pass.length  < 6 && pass1.length < 6) {
+
+
+      req.session.error = "Minimo de 6 caracteres";
       res.redirect("/registro");
+
+    }else if (!/^[A-Z]{1}[a-z0-9A-Z\._-]+$/.test(pass)){  //EXPRESION REGULAR
+      req.session.error = "formato incorrecto de contraseña: Primera letra Mayuscula, + 6 caracteres";
+      res.redirect("/registro");
+     
     } else if (pass === pass1) {
 
       if ( roles == "usuario") {
